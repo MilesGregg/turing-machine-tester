@@ -1,0 +1,43 @@
+//----------------------- Q1 -----------------------
+
+name: alternating
+init: wake
+accept: q1, q2, accept
+
+wake,_
+accept,_,-
+
+wake,0
+q0,0,-
+
+wake,1
+q0,1,-
+
+// q0 -> q1
+q0,0
+q1,0,>
+
+// q0 -> q2
+q0,1
+q2,1,>
+
+// q1 -> q3 and q1 -> q2
+q1,0
+q3,0,>
+
+q1,1
+q2,1,>
+
+// q2 -> q1 and q2 -> q3
+q2,0
+q1,0,>
+
+q2,1
+q3,1,>
+
+// looping on the last state
+q3,0
+q3,0,>
+
+q3,1
+q3,1,>

@@ -1,0 +1,50 @@
+//----------------------- Q3 -----------------------
+
+name: 0n1n
+init: initWake
+accept: accept
+
+initWake,_
+accept,_,-
+
+initWake,0
+wake,0,-
+
+initWake,1
+wake,1,-
+
+wake,1
+reject,1,>
+
+wake,0
+lookFor1,_,>
+
+wake,_
+accept,_,>
+
+lookFor1,0
+lookFor1,0,>
+
+lookFor1,1
+lookForEnd,1,>
+
+lookForEnd,0
+reject,0,>
+
+lookForEnd,1
+lookForEnd,1,>
+
+lookForEnd,_
+delete1,_,<
+
+delete1,1
+findBeginning,_,<
+
+findBeginning,1
+findBeginning,1,<
+
+findBeginning,0
+findBeginning,0,<
+
+findBeginning,_
+wake,_,>

@@ -1,0 +1,47 @@
+//----------------------- Q5 -----------------------
+
+name: anti-palindrome
+init: wake
+accept: accept
+
+wake,_,_
+reject,_,_,-,-
+
+wake,0,_
+copy,0,_,-,-
+
+wake,1,_
+copy,1,_,-,-
+
+copy,0,_
+copy,0,0,>,>
+
+copy,1,_
+copy,1,1,>,>
+
+copy,_,_
+return,_,_,-,<
+
+return,_,0
+return,_,0,-,<
+
+return,_,1
+return,_,1,-,<
+
+return,_,_
+test,_,_,<,>
+
+test,0,0
+reject,0,0,-,-
+
+test,1,1
+reject,1,1,-,-
+
+test,0,1
+test,0,1,<,>
+
+test,1,0
+test,1,0,<,>
+
+test,_,_
+accept,_,_,-,-

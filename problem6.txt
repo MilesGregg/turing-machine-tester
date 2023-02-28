@@ -1,0 +1,94 @@
+//----------------------- Q6 -----------------------
+
+name: 0^n 1^2n 0^n
+init: wake
+accept: accept
+
+wake,_
+accept,_,-
+
+wake,0
+init,0,-
+
+wake,1
+init,1,-
+
+init,0
+init,0,<
+
+init,1
+init,1,<
+
+init,D
+init,D,<
+
+init,_
+lookForLeftZero,_,>
+
+lookForLeftZero,_
+lookForLeftZero,_,>
+
+lookForLeftZero,D
+lookForLeftZero,D,>
+
+lookForLeftZero,0
+goToRightSide,D,>
+
+// GO TO RIGHT SIDE
+goToRightSide,0
+goToRightSide,0,>
+
+goToRightSide,1
+goToRightSide,1,>
+
+goToRightSide,D
+goToRightSide,D,>
+
+goToRightSide,_
+lookForSecondZero,_,<
+
+// LOOK FOR RIGHT SIDE ZERO'S
+lookForSecondZero,0
+goToMid,D,<
+
+lookForSecondZero,D
+lookForSecondZero,D,<
+
+// GO TO MID AND REMOVE TWO 11
+
+goToMid,D
+goToMid,D,<
+
+goToMid,0
+goToMid,0,<
+
+goToMid,1
+goToMid2,D,<
+
+goToMid2,1
+goLeft,D,<
+
+// Go to LEFT and Check ALL
+goLeft,0
+goLeft,0,<
+
+goLeft,1
+goLeft,1,<
+
+goLeft,D
+goLeft,D,<
+
+goLeft,_
+checkAll,_,>
+
+checkAll,_
+accept,_,>
+
+checkAll,0
+init,0,-
+
+checkAll,1
+init,1,-
+
+checkAll,D
+checkAll,D,>
