@@ -8,7 +8,7 @@ import time
 
 MAX_RETEST = 50
 
-def run_test():
+def run_test(path):
     chrome_options = Options()
     chrome_options.add_experimental_option("detach", True)
 
@@ -32,28 +32,38 @@ def run_test():
     # test_case: curr_index LINE NUM
     current = {
         1: 0,
-        2: 0,
-        3: 0,
-        4: 0,
-        5: 0,
-        6: 0,
+        #2: 0,
+        #3: 0,
+        #4: 0,
+        #5: 0,
+        #6: 0,
+        #7: 0
+    }
+
+    correct = {
+        1: 1,
+        #2: 0,
+        #3: 0,
+        #4: 0,
+        #5: 0,
+        #6: 0,
         #7: 0
     }
 
     done = {
         1: False,
-        2: False,
-        3: False,
-        4: False,
-        5: False,
-        6: False,
+        #2: False,
+        #3: False,
+        #4: False,
+        #5: False,
+        #6: False,
         #7: False
     }
 
     total_amount = 0
 
     for i in current.keys():
-        total_amount += sum(1 for _ in open('problem' + str(i) + 'Tests.txt', 'r'))
+        total_amount += sum(1 for _ in open(path + 'problem' + str(i) + 'Tests.txt', 'r'))
 
     print(total_amount)
     current_iteration = 0
@@ -61,13 +71,12 @@ def run_test():
     with alive_bar(total_amount) as bar:
         while any(value == False for value in done.values()):
             for i in current.keys():
-                current_iteration += 1
                 bar()
                 # switch to specific page
                 driver.switch_to.window(str(i))
 
                 # read file
-                file = open('problem' + str(i) + 'Tests.txt', 'r')
+                file = open(path + 'problem' + str(i) + 'Tests.txt', 'r')
                 # check to make sure we aren't at the end
                 if current[i] == sum(1 for _ in file):
                     done[i] = True
@@ -77,7 +86,7 @@ def run_test():
 
                 # load turing code into editor
                 if current[i] == 0:
-                    turing_code_file = open('problem' + str(i) + '.txt', 'r')
+                    turing_code_file = open(path + 'problem' + str(i) + '.txt', 'r')
                     turing_lines = turing_code_file.readlines()
 
                     turing_code = '\n'.join(turing_lines)
@@ -85,7 +94,8 @@ def run_test():
 
                     driver.execute_script(turing_code_script)
                     driver.find_element(By.ID, 'loader').click()
-                else: # CHECK ASSERTION HERE 
+                else: # CHECK ASSERTION HERE
+                    #current_iteration += 1
                     #print('Curr Test: ', i)
                     #print(file.readlines()[current[i]-1].split(','))
                     prev_data_test = file.readlines()[current[i]-1].strip().split(',')
@@ -95,13 +105,16 @@ def run_test():
                         accepted = driver.execute_script('return document.getElementById("accepted_text").style.display') != 'none'
                         try:
                             assert accepted == eval(prev_data_test[1]), f'Test Case failed let me retest (retest #{retest_n}) - Failed on: ' + str(prev_data_test[0]) + ' test case: ' + 'expected ' + str(prev_data_test[1]) + ' but got ' + str(accepted) + ", raw=" + driver.execute_script('return document.getElementById("accepted_text").style.display')
+                            #current_iteration += 1
+                            correct[i] += 1
                             break
                         except AssertionError as msg:
                             print(msg)
                             time.sleep(2)
                         if retest_n == MAX_RETEST - 1:
                             print(f"Max retests reached (MAX_RETEST = {MAX_RETEST}")
-                            exit(1)
+                            #exit(1)
+                            break
                 file.seek(0)
 
                 # preform actions
@@ -122,5 +135,12 @@ def run_test():
                 # increment count
                 current[i] += 1
 
+    for i in correct.keys():
+        file = open(path + 'problem' + str(i) + 'Tests.txt', 'r')
+        s = sum(1 for _ in file)
+        print('Grade: ', str((correct[i] / s) * 100))
+        print('sum: ', str(s))
+        print('Correct: ', str(correct[i]))
+
 if __name__ == '__main__':
-    run_test()
+    run_test('students/student1/')
