@@ -1,0 +1,20 @@
+//----------------------- Q8 -----------------------
+
+name: coinflip
+init: tails
+accept: accept
+
+tails,T
+heads,T,>
+
+heads,T
+tails,T,>
+
+tails,H
+tails,H,>
+
+heads,H
+heads,H,>
+
+tails,_
+accept,_,-

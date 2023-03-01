@@ -1,0 +1,62 @@
+//----------------------- Q4 -----------------------
+
+name: unequal 0's and 1's
+init: wake
+accept: accept
+
+wake,_
+accept,_,-
+
+wake,0
+qinit,0,-
+
+wake,1
+qinit,1,-
+
+qinit,D
+qinit,D,>
+
+qinit,0
+find1,D,>
+
+qinit,1
+find0,D,>
+
+// FIND CORRESPONDING 0
+find0,1
+find0,1,>
+
+find0,0
+goToBeginning,D,-
+
+find0,D
+find0,D,>
+
+find0,_
+accept,_,>
+
+// FIND CORRESPONDING 1
+find1,0
+find1,0,>
+
+find1,1
+goToBeginning,D,-
+
+find1,D
+find1,D,>
+
+find1,_
+accept,_,>
+
+// GO TO BEGINNING
+goToBeginning,0
+goToBeginning,0,<
+
+goToBeginning,1
+goToBeginning,1,<
+
+goToBeginning,D
+goToBeginning,D,<
+
+goToBeginning,_
+qinit,_,>

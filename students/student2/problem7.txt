@@ -1,0 +1,521 @@
+//----------------------- Q7 -----------------------
+
+name: 3x3 latin square
+init: wake
+accept: accept
+
+wake,_,_,_
+accept,_,_,_,-,-,-
+
+wake,A,_,_
+goOne,A,_,_,-,-,-
+
+wake,B,_,_
+goOne,B,_,_,-,-,-
+
+wake,C,_,_
+goOne,C,_,_,-,-,-
+
+// GO RIGHT ONE: whatever the current is then go to the right
+goOne,A,_,_
+goTwo,A,_,_,>,-,-
+
+goOne,B,_,_
+goTwo,B,_,_,>,-,-
+
+goOne,C,_,_
+goTwo,C,_,_,>,-,-
+
+// GO RIGHT TWO: whatever the current is then go to the right
+goTwo,A,_,_
+goThree,A,_,_,>,-,-
+
+goTwo,B,_,_
+goThree,B,_,_,>,-,-
+
+goTwo,C,_,_
+goThree,C,_,_,>,-,-
+
+// GO RIGHT THREE: whatever the current is then go to the right
+goThree,A,_,_
+copyingToTapeTwoState1,A,_,_,>,-,-
+
+goThree,B,_,_
+copyingToTapeTwoState1,B,_,_,>,-,-
+
+goThree,C,_,_
+copyingToTapeTwoState1,C,_,_,>,-,-
+
+// COPYING FROM INITAL TAPE TO SECOND TAPE
+copyingToTapeTwoState1,A,_,_
+copyingToTapeTwoState2,_,A,_,>,>,-
+
+copyingToTapeTwoState1,B,_,_
+copyingToTapeTwoState2,_,B,_,>,>,-
+
+copyingToTapeTwoState1,C,_,_
+copyingToTapeTwoState2,_,C,_,>,>,-
+
+copyingToTapeTwoState2,A,_,_
+copyingToTapeTwoState3,_,A,_,>,>,-
+
+copyingToTapeTwoState2,B,_,_
+copyingToTapeTwoState3,_,B,_,>,>,-
+
+copyingToTapeTwoState2,C,_,_
+copyingToTapeTwoState3,_,C,_,>,>,-
+
+copyingToTapeTwoState3,A,_,_
+copyingToTapeThirdState1,_,A,_,>,>,-
+
+copyingToTapeTwoState3,B,_,_
+copyingToTapeThirdState1,_,B,_,>,>,-
+
+copyingToTapeTwoState3,C,_,_
+copyingToTapeThirdState1,_,C,_,>,>,-
+
+// COPYING FROM INITAL TAPE TO THIRD TAPE
+copyingToTapeThirdState1,A,_,_
+copyingToTapeThirdState2,_,_,A,>,-,>
+
+copyingToTapeThirdState1,B,_,_
+copyingToTapeThirdState2,_,_,B,>,-,>
+
+copyingToTapeThirdState1,C,_,_
+copyingToTapeThirdState2,_,_,C,>,-,>
+
+copyingToTapeThirdState2,A,_,_
+copyingToTapeThirdState3,_,_,A,>,-,>
+
+copyingToTapeThirdState2,B,_,_
+copyingToTapeThirdState3,_,_,B,>,-,>
+
+copyingToTapeThirdState2,C,_,_
+copyingToTapeThirdState3,_,_,C,>,-,>
+
+copyingToTapeThirdState3,A,_,_
+resetPointerOne,_,_,A,>,-,>
+
+copyingToTapeThirdState3,B,_,_
+resetPointerOne,_,_,B,>,-,>
+
+copyingToTapeThirdState3,C,_,_
+resetPointerOne,_,_,C,>,-,>
+
+// RESET ALL POINTERS TO START
+
+// RESET TAPE ONE POINTER
+resetPointerOne,_,_,_
+resetPointerOne,_,_,_,<,-,-
+
+// found a letter on the right
+resetPointerOne,A,_,_
+resetPointerOneBegin,A,_,_,<,-,-
+
+resetPointerOne,B,_,_
+resetPointerOneBegin,B,_,_,<,-,-
+
+resetPointerOne,C,_,_
+resetPointerOneBegin,C,_,_,<,-,-
+
+resetPointerOneBegin,A,_,_
+resetPointerOneBegin,A,_,_,<,-,-
+
+resetPointerOneBegin,B,_,_
+resetPointerOneBegin,B,_,_,<,-,-
+
+resetPointerOneBegin,C,_,_
+resetPointerOneBegin,C,_,_,<,-,-
+
+// FOUND THE BEGINING OF TAPE 1
+resetPointerOneBegin,_,_,_
+resetPointerTwo,_,_,_,-,<,-
+
+// MOVE TAPE TWO OVER
+resetPointerTwo,_,A,_
+resetPointerTwo,_,A,_,-,<,-
+
+resetPointerTwo,_,B,_
+resetPointerTwo,_,B,_,-,<,-
+
+resetPointerTwo,_,C,_
+resetPointerTwo,_,C,_,-,<,-
+
+resetPointerTwo,_,_,_
+resetPointerThree,_,_,_,-,-,<
+
+// MOVE TAPE THREE OVER
+resetPointerThree,_,_,A
+resetPointerThree,_,_,A,-,-,<
+
+resetPointerThree,_,_,B
+resetPointerThree,_,_,B,-,-,<
+
+resetPointerThree,_,_,C
+resetPointerThree,_,_,C,-,-,<
+
+resetPointerThree,_,_,_
+checkingMode,_,_,_,>,>,>
+
+// Checking mode now
+
+checkingMode,A,B,C
+checkingMode,A,B,C,>,>,>
+
+checkingMode,A,C,B
+checkingMode,A,C,B,>,>,>
+
+checkingMode,B,A,C
+checkingMode,B,A,C,>,>,>
+
+checkingMode,B,C,A
+checkingMode,B,C,A,>,>,>
+
+checkingMode,C,A,B
+checkingMode,C,A,B,>,>,>
+
+checkingMode,C,B,A
+checkingMode,C,B,A,>,>,>
+
+checkingMode,_,_,_
+R1CheckRight,_,_,_,<,-,-
+
+// THIS IS FOR CHECKING ROWS
+
+// ROW ONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+// Get current letter and go into corresponding state
+R1CheckRight,A,_,_
+R1CheckAARight,A,_,_,<,-,-
+
+R1CheckRight,B,_,_
+R1CheckBBRight,B,_,_,<,-,-
+
+R1CheckRight,C,_,_
+R1CheckCCRight,C,_,_,<,-,-
+
+// Check AA for right
+R1CheckAARight,B,_,_
+R1CheckLeft,B,_,_,-,-,-
+
+R1CheckAARight,C,_,_
+R1CheckLeft,C,_,_,-,-,-
+
+// Check BB for right
+R1CheckBBRight,A,_,_
+R1CheckLeft,A,_,_,-,-,-
+
+R1CheckBBRight,C,_,_
+R1CheckLeft,C,_,_,-,-,-
+
+// Check CC for right
+R1CheckCCRight,A,_,_
+R1CheckLeft,A,_,_,-,-,-
+
+R1CheckCCRight,B,_,_
+R1CheckLeft,B,_,_,-,-,-
+
+// NOW DO LEFT SIDE
+R1CheckLeft,A,_,_
+R1CheckAALeft,A,_,_,<,-,-
+
+R1CheckLeft,B,_,_
+R1CheckBBLeft,B,_,_,<,-,-
+
+R1CheckLeft,C,_,_
+R1CheckCCLeft,C,_,_,<,-,-
+
+// Check left with A
+R1CheckAALeft,B,_,_
+R1CheckOuter,B,_,_,-,-,-
+
+R1CheckAALeft,C,_,_
+R1CheckOuter,C,_,_,-,-,-
+
+// Check left with B
+R1CheckBBLeft,A,_,_
+R1CheckOuter,A,_,_,-,-,-
+
+R1CheckBBLeft,C,_,_
+R1CheckOuter,C,_,_,-,-,-
+
+// Check left with C
+R1CheckCCLeft,A,_,_
+R1CheckOuter,A,_,_,-,-,-
+
+R1CheckCCLeft,B,_,_
+R1CheckOuter,B,_,_,-,-,-
+
+// CHECK OUTER NOW!!!!!!!!!!!!
+R1CheckOuter,A,_,_
+R1CheckOuterAAStep1,A,_,_,>,-,-
+
+R1CheckOuter,B,_,_
+R1CheckOuterBBStep1,B,_,_,>,-,-
+
+R1CheckOuter,C,_,_
+R1CheckOuterCCStep1,C,_,_,>,-,-
+
+// STEP 1 ALONG NOW
+R1CheckOuterAAStep1,A,_,_
+R1CheckOuterAAStep2,A,_,_,>,-,-
+R1CheckOuterAAStep1,B,_,_
+R1CheckOuterAAStep2,B,_,_,>,-,-
+R1CheckOuterAAStep1,C,_,_
+R1CheckOuterAAStep2,C,_,_,>,-,-
+
+R1CheckOuterBBStep1,A,_,_
+R1CheckOuterBBStep2,A,_,_,>,-,-
+R1CheckOuterBBStep1,B,_,_
+R1CheckOuterBBStep2,B,_,_,>,-,-
+R1CheckOuterBBStep1,C,_,_
+R1CheckOuterBBStep2,C,_,_,>,-,-
+
+R1CheckOuterCCStep1,A,_,_
+R1CheckOuterCCStep2,A,_,_,>,-,-
+R1CheckOuterCCStep1,B,_,_
+R1CheckOuterCCStep2,B,_,_,>,-,-
+R1CheckOuterCCStep1,C,_,_
+R1CheckOuterCCStep2,C,_,_,>,-,-
+
+// NOW CHECK IF THEY ARE THE SAME OR NOT!!
+R1CheckOuterAAStep2,B,_,_
+R2CheckRight,B,_,_,>,<,-
+R1CheckOuterAAStep2,C,_,_
+R2CheckRight,C,_,_,>,<,-
+
+R1CheckOuterBBStep2,A,_,_
+R2CheckRight,A,_,_,>,<,-
+R1CheckOuterBBStep2,C,_,_
+R2CheckRight,C,_,_,>,<,-
+
+R1CheckOuterCCStep2,A,_,_
+R2CheckRight,A,_,_,>,<,-
+R1CheckOuterCCStep2,B,_,_
+R2CheckRight,B,_,_,>,<,-
+
+// ROW TWO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+// Get current letter and go into corresponding state
+R2CheckRight,_,A,_
+R2CheckAARight,_,A,_,-,<,-
+
+R2CheckRight,_,B,_
+R2CheckBBRight,_,B,_,-,<,-
+
+R2CheckRight,_,C,_
+R2CheckCCRight,_,C,_,-,<,-
+
+// Check AA for right
+R2CheckAARight,_,B,_
+R2CheckLeft,_,B,_,-,-,-
+
+R2CheckAARight,_,C,_
+R2CheckLeft,_,C,_,-,-,-
+
+// Check BB for right
+R2CheckBBRight,_,A,_
+R2CheckLeft,_,A,_,-,-,-
+
+R2CheckBBRight,_,C,_
+R2CheckLeft,_,C,_,-,-,-
+
+// Check CC for right
+R2CheckCCRight,_,A,_
+R2CheckLeft,_,A,_,-,-,-
+
+R2CheckCCRight,_,B,_
+R2CheckLeft,_,B,_,-,-,-
+
+// NOW DO LEFT SIDE
+R2CheckLeft,_,A,_
+R2CheckAALeft,_,A,_,-,<,-
+
+R2CheckLeft,_,B,_
+R2CheckBBLeft,_,B,_,-,<,-
+
+R2CheckLeft,_,C,_
+R2CheckCCLeft,_,C,_,-,<,-
+
+// Check left with A
+R2CheckAALeft,_,B,_
+R2CheckOuter,_,B,_,-,-,-
+
+R2CheckAALeft,_,C,_
+R2CheckOuter,_,C,_,-,-,-
+
+// Check left with B
+R2CheckBBLeft,_,A,_
+R2CheckOuter,_,A,_,-,-,-
+
+R2CheckBBLeft,_,C,_
+R2CheckOuter,_,C,_,-,-,-
+
+// Check left with C
+R2CheckCCLeft,_,A,_
+R2CheckOuter,_,A,_,-,-,-
+
+R2CheckCCLeft,_,B,_
+R2CheckOuter,_,B,_,-,-,-
+
+// CHECK OUTER NOW!!!!!!!!!!!!
+R2CheckOuter,_,A,_
+R2CheckOuterAAStep1,_,A,_,-,>,-
+
+R2CheckOuter,_,B,_
+R2CheckOuterBBStep1,_,B,_,-,>,-
+
+R2CheckOuter,_,C,_
+R2CheckOuterCCStep1,_,C,_,-,>,-
+
+// STEP 1 ALONG NOW
+R2CheckOuterAAStep1,_,A,_
+R2CheckOuterAAStep2,_,A,_,-,>,-
+R2CheckOuterAAStep1,_,B,_
+R2CheckOuterAAStep2,_,B,_,-,>,-
+R2CheckOuterAAStep1,_,C,_
+R2CheckOuterAAStep2,_,C,_,-,>,-
+
+R2CheckOuterBBStep1,_,A,_
+R2CheckOuterBBStep2,_,A,_,-,>,-
+R2CheckOuterBBStep1,_,B,_
+R2CheckOuterBBStep2,_,B,_,-,>,-
+R2CheckOuterBBStep1,_,C,_
+R2CheckOuterBBStep2,_,C,_,-,>,-
+
+R2CheckOuterCCStep1,_,A,_
+R2CheckOuterCCStep2,_,A,_,-,>,-
+R2CheckOuterCCStep1,_,B,_
+R2CheckOuterCCStep2,_,B,_,-,>,-
+R2CheckOuterCCStep1,_,C,_
+R2CheckOuterCCStep2,_,C,_,-,>,-
+
+// NOW CHECK IF THEY ARE THE SAME OR NOT!!
+R2CheckOuterAAStep2,_,B,_
+R3CheckRight,_,B,_,-,>,<
+R2CheckOuterAAStep2,_,C,_
+R3CheckRight,_,C,_,-,>,<
+
+R2CheckOuterBBStep2,_,A,_
+R3CheckRight,_,A,_,-,>,<
+R2CheckOuterBBStep2,_,C,_
+R3CheckRight,_,C,_,-,>,<
+
+R2CheckOuterCCStep2,_,A,_
+R3CheckRight,_,A,_,-,>,<
+R2CheckOuterCCStep2,_,B,_
+R3CheckRight,_,B,_,-,>,<
+
+// ROW THREE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+// Get current letter and go into corresponding state
+R3CheckRight,_,_,A
+R3CheckAARight,_,_,A,-,-,<
+
+R3CheckRight,_,_,B
+R3CheckBBRight,_,_,B,-,-,<
+
+R3CheckRight,_,_,C
+R3CheckCCRight,_,_,C,-,-,<
+
+// Check AA for right
+R3CheckAARight,_,_,B
+R3CheckLeft,_,_,B,-,-,-
+
+R3CheckAARight,_,_,C
+R3CheckLeft,_,_,C,-,-,-
+
+// Check BB for right
+R3CheckBBRight,_,_,A
+R3CheckLeft,_,_,A,-,-,-
+
+R3CheckBBRight,_,_,C
+R3CheckLeft,_,_,C,-,-,-
+
+// Check CC for right
+R3CheckCCRight,_,_,A
+R3CheckLeft,_,_,A,-,-,-
+
+R3CheckCCRight,_,_,B
+R3CheckLeft,_,_,B,-,-,-
+
+// NOW DO LEFT SIDE
+R3CheckLeft,_,_,A
+R3CheckAALeft,_,_,A,-,-,<
+
+R3CheckLeft,_,_,B
+R3CheckBBLeft,_,_,B,-,-,<
+
+R3CheckLeft,_,_,C
+R3CheckCCLeft,_,_,C,-,-,<
+
+// Check left with A
+R3CheckAALeft,_,_,B
+R3CheckOuter,_,_,B,-,-,-
+
+R3CheckAALeft,_,_,C
+R3CheckOuter,_,_,C,-,-,-
+
+// Check left with B
+R3CheckBBLeft,_,_,A
+R3CheckOuter,_,_,A,-,-,-
+
+R3CheckBBLeft,_,_,C
+R3CheckOuter,_,_,C,-,-,-
+
+// Check left with C
+R3CheckCCLeft,_,_,A
+R3CheckOuter,_,_,A,-,-,-
+
+R3CheckCCLeft,_,_,B
+R3CheckOuter,_,_,B,-,-,-
+
+// CHECK OUTER NOW!!!!!!!!!!!!
+R3CheckOuter,_,_,A
+R3CheckOuterAAStep1,_,_,A,-,-,>
+
+R3CheckOuter,_,_,B
+R3CheckOuterBBStep1,_,_,B,-,-,>
+
+R3CheckOuter,_,_,C
+R3CheckOuterCCStep1,_,_,C,-,-,>
+
+// STEP 1 ALONG NOW
+R3CheckOuterAAStep1,_,_,A
+R3CheckOuterAAStep2,_,_,A,-,-,>
+R3CheckOuterAAStep1,_,_,B
+R3CheckOuterAAStep2,_,_,B,-,-,>
+R3CheckOuterAAStep1,_,_,C
+R3CheckOuterAAStep2,_,_,C,-,-,>
+
+R3CheckOuterBBStep1,_,_,A
+R3CheckOuterBBStep2,_,_,A,-,-,>
+R3CheckOuterBBStep1,_,_,B
+R3CheckOuterBBStep2,_,_,B,-,-,>
+R3CheckOuterBBStep1,_,_,C
+R3CheckOuterBBStep2,_,_,C,-,-,>
+
+R3CheckOuterCCStep1,_,_,A
+R3CheckOuterCCStep2,_,_,A,-,-,>
+R3CheckOuterCCStep1,_,_,B
+R3CheckOuterCCStep2,_,_,B,-,-,>
+R3CheckOuterCCStep1,_,_,C
+R3CheckOuterCCStep2,_,_,C,-,-,>
+
+// NOW CHECK IF THEY ARE THE SAME OR NOT!!
+R3CheckOuterAAStep2,_,_,B
+accept,_,_,B,-,-,>
+R3CheckOuterAAStep2,_,_,C
+accept,_,_,C,-,-,>
+
+R3CheckOuterBBStep2,_,_,A
+accept,_,_,A,-,-,>
+R3CheckOuterBBStep2,_,_,C
+accept,_,_,C,-,-,>
+
+R3CheckOuterCCStep2,_,_,A
+accept,_,_,A,-,-,>
+R3CheckOuterCCStep2,_,_,B
+accept,_,_,B,-,-,>
+
+//accept,_,_,_,-,-,-

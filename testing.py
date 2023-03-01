@@ -66,7 +66,6 @@ def run_test(path):
         total_amount += sum(1 for _ in open(path + 'problem' + str(i) + 'Tests.txt', 'r'))
 
     print(total_amount)
-    current_iteration = 0
 
     with alive_bar(total_amount) as bar:
         while any(value == False for value in done.values()):
@@ -143,4 +142,6 @@ def run_test(path):
         print('Correct: ', str(correct[i]))
 
 if __name__ == '__main__':
-    run_test('students/student1/')
+    from glob import glob
+    for g in glob("students/*/", recursive = True):
+        run_test(g)
