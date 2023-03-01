@@ -6,7 +6,7 @@ from alive_progress import alive_bar
 
 import time
 
-MAX_RETEST = 50
+MAX_RETEST = 2
 
 def run_test(path):
     chrome_options = Options()
@@ -32,7 +32,7 @@ def run_test(path):
     # test_case: curr_index LINE NUM
     current = {
         1: 0,
-        #2: 0,
+     #   2: 0,
         #3: 0,
         #4: 0,
         #5: 0,
@@ -42,7 +42,7 @@ def run_test(path):
 
     correct = {
         1: 1,
-        #2: 0,
+       # 2: 0,
         #3: 0,
         #4: 0,
         #5: 0,
@@ -52,7 +52,7 @@ def run_test(path):
 
     done = {
         1: False,
-        #2: False,
+       # 2: False,
         #3: False,
         #4: False,
         #5: False,
@@ -134,14 +134,29 @@ def run_test(path):
                 # increment count
                 current[i] += 1
 
+    total_points = 0
+    total_achieved_points = 0
+
     for i in correct.keys():
         file = open(path + 'problem' + str(i) + 'Tests.txt', 'r')
         s = sum(1 for _ in file)
-        print('Grade: ', str((correct[i] / s) * 100))
-        print('sum: ', str(s))
-        print('Correct: ', str(correct[i]))
+        total_points += s
+        total_achieved_points += correct[i]
+
+    grade = (total_achieved_points / total_points) * 100
+    print(path.split('\\')[-2], str(grade))
+
+    driver.close()
+
+    return path.split('\\')[-2], grade
 
 if __name__ == '__main__':
     from glob import glob
-    for g in glob("students/*/", recursive = True):
-        run_test(g)
+
+    f = open('grades.txt', 'w')
+
+    for g in glob('students/*/', recursive = True):
+        s, g = run_test(g)
+        f.write(s + ': ' + str(g) + '\n')
+
+    f.close()

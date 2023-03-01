@@ -1,0 +1,2 @@
+student1: 100.0
+student2: 100.0
