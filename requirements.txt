@@ -1,0 +1,3 @@
+selenium==4.8.2
+numpy==1.24.2
+alive-progress==1.0

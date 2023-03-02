@@ -85,22 +85,28 @@ def run_test(path):
 
                 # load turing code into editor
                 if current[i] == 0:
+                    # Load the problem{i}.txt file
                     turing_code_file = open(path + 'problem' + str(i) + '.txt', 'r')
                     turing_lines = turing_code_file.readlines()
-
+                    # Join the array of lines into one string with \n
                     turing_code = '\n'.join(turing_lines)
+                    # To set the TM code section will need to call the myCodeMirror.setValue JS function
                     turing_code_script = f'myCodeMirror.setValue({repr(turing_code)})'
-
+                    # Execute the myCodeMirror.setValue
                     driver.execute_script(turing_code_script)
+                    # Compile the TM
                     driver.find_element(By.ID, 'loader').click()
                 else: # CHECK ASSERTION HERE
                     #current_iteration += 1
                     #print('Curr Test: ', i)
                     #print(file.readlines()[current[i]-1].split(','))
+                    # Get the test case from the file
                     prev_data_test = file.readlines()[current[i]-1].strip().split(',')
+                    # Check if the input was accepted or rejected
                     accepted = driver.execute_script('return document.getElementById("accepted_text").style.display') != 'none'
-                    
+                    # Recheck the input. Sometimes selenium doesn't fetch the latest state of the page
                     for retest_n in range(MAX_RETEST):
+                        # Get the state of the TM again
                         accepted = driver.execute_script('return document.getElementById("accepted_text").style.display') != 'none'
                         try:
                             assert accepted == eval(prev_data_test[1]), f'Test Case failed let me retest (retest #{retest_n}) - Failed on: ' + str(prev_data_test[0]) + ' test case: ' + 'expected ' + str(prev_data_test[1]) + ' but got ' + str(accepted) + ", raw=" + driver.execute_script('return document.getElementById("accepted_text").style.display')
@@ -110,6 +116,7 @@ def run_test(path):
                         except AssertionError as msg:
                             print(msg)
                             time.sleep(2)
+                        # If reached MAX_RETEST exit, it really failed the test
                         if retest_n == MAX_RETEST - 1:
                             print(f"Max retests reached (MAX_RETEST = {MAX_RETEST}")
                             #exit(1)
@@ -119,16 +126,22 @@ def run_test(path):
                 # preform actions
                 data = file.readlines()[current[i]].strip().split(',')
 
+                # Clear the TM input and send the new test case
                 driver.find_element(By.ID, 'input').clear()
                 driver.find_element(By.ID, 'input').send_keys(data[0])
+                # Load the new TM input onto the TM tape
                 try:
                     driver.find_element(By.ID, 'load_input').click()
                 except:
+                    # If the load button is not active yet, wait 1s and retry
                     time.sleep(1)
                     driver.find_element(By.ID, 'load_input').click()
+                # Set the TM speed to 0.0001 (max speed)
                 driver.execute_script('trans_speed = 0.0001')
+                # Start the TM
                 driver.find_element(By.ID, 'play').click()
-
+                
+                # Wait and go to the next TM
                 time.sleep(0.5)
 
                 # increment count
@@ -136,16 +149,18 @@ def run_test(path):
 
     total_points = 0
     total_achieved_points = 0
-
+    # Compute the total number of tests passed 
     for i in correct.keys():
         file = open(path + 'problem' + str(i) + 'Tests.txt', 'r')
         s = sum(1 for _ in file)
         total_points += s
         total_achieved_points += correct[i]
 
+    # Compute as a percentage grade
     grade = (total_achieved_points / total_points) * 100
     print(path.split('\\')[-2], str(grade))
 
+    # Stop the Chrome driver
     driver.close()
 
     return path.split('\\')[-2], grade
@@ -155,6 +170,7 @@ if __name__ == '__main__':
 
     f = open('grades.txt', 'w')
 
+    # For each student, run the test on the TM
     for g in glob('students/*/', recursive = True):
         s, g = run_test(g)
         f.write(s + ': ' + str(g) + '\n')
